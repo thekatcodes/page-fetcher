@@ -12,14 +12,19 @@ request(`${args[0]}`, (error, response, body) => {
 	"statusCode:", response && response.statusCode; // Print the response status code if a response was received
 	"body:", body; // Print the HTML for the link arg
 
-	const content = body;
-    const fileSize = content.length;
+	if (body === undefined) {
+		console.log("URL is invalid");
+		process.exit();
+	}
 
-    fs.writeFile(`${args[1]}`, content, (err) => {
-        if (err) {
-            console.error(err);
+	const content = body;
+	const fileSize = content.length;
+
+	fs.writeFile(`${args[1]}`, content, (err) => {
+		if (err) {
+			console.error(err);
 		}
 		// file written successfully
-    });
-    console.log(`Downloaded and save ${fileSize} to ${args[1]}.`)
+	});
+	console.log(`Downloaded and save ${fileSize} to ${args[1]}.`);
 });
